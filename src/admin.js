@@ -1,3 +1,3 @@
-import people from './people'
+import people from './people';
 
-document.body.innerHTML = `<p>There are ${people.length} people.</p>`
+document.body.innerHTML = `<p>There are ${people.length} people.</p>`;

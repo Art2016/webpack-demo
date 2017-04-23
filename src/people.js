@@ -10,6 +10,6 @@ const people = [{
 }, {
   manager: 'Bob',
   name: 'Terrence'
-}]
+}];
 
-export default people
+export default people;

@@ -1,13 +1,13 @@
-const webpack = require('webpack')
-const path = require('path')
+const webpack = require('webpack');
+const path = require('path');
 
 const extractCommons = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons',
   filename: 'commons.js'
-})
+});
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const extractCSS = new ExtractTextPlugin('[name].bundle.css')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('[name].bundle.css');
 
 const config = {
   context: path.resolve(__dirname, 'src'),
@@ -22,7 +22,7 @@ const config = {
   },
   module: {
     rules: [{
-      test: /\.(png|jpg)$/,
+      test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       include: path.resolve(__dirname, 'src'),
       use: [{
         loader: 'url-loader',
@@ -37,8 +37,13 @@ const config = {
       include: path.resolve(__dirname, 'src'),
       use: [{
         loader: 'babel-loader',
-        options: { presets: ['es2015'] }
-      }]
+        options: {
+          presets: [
+            ['es2015', { moduels: false }], 'stage-0'
+          ]
+        }
+      }],
+      exclude: ['/node_modules']
     }]
   },
   plugins: [
@@ -46,6 +51,6 @@ const config = {
     extractCommons,
     extractCSS
   ]
-}
+};
 
-module.exports = config
+module.exports = config;
