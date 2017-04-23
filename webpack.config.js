@@ -1,13 +1,15 @@
+const env = process.env.NODE_ENV;
 const webpack = require('webpack');
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const extractCommons = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons',
-  filename: 'commons.js'
+  filename: '[name].js'
 });
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractCSS = new ExtractTextPlugin('[name].bundle.css');
+const extractCSS = new ExtractTextPlugin('[name].[chunkhash].bundle.css');
 
 const config = {
   context: path.resolve(__dirname, 'src'),
@@ -17,8 +19,9 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    filename: '[name].bundle.js'
+    publicPath: env === 'production' ? './dist/' : '/dist/',
+    filename: '[name].[chunkhash].bundle.js',
+    // chunkFilename: '[id].[chunkhash].bundle.js'
   },
   module: {
     rules: [{
@@ -31,7 +34,11 @@ const config = {
     }, {
       test: /\.scss$/,
       include: path.resolve(__dirname, 'src'),
-      loader: extractCSS.extract(['css-loader','sass-loader'])
+      use: env === 'production' ? extractCSS.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'sass-loader']
+      })
+      : ['style-loader', 'css-loader', 'sass-loader']
     }, {
       test: /\.js$/,
       include: path.resolve(__dirname, 'src'),
@@ -47,7 +54,13 @@ const config = {
     }]
   },
   plugins: [
+    // new CleanWebpackPlugin('dist'),
     new webpack.NamedModulesPlugin(),
+    new ManifestPlugin({
+      fileName: 'assets.json',
+      basePath: '/',
+      writeToFileEmit: true
+    }),
     extractCommons,
     extractCSS
   ]
