@@ -9,7 +9,7 @@ const extractCommons = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons',
   filename: '[name].js'
 });
-const extractCSS = new ExtractTextPlugin('[name].[chunkhash].bundle.css');
+const extractCSS = new ExtractTextPlugin('[name].bundle.css');
 
 const config = {
   context: path.resolve(__dirname, 'src'),
@@ -21,7 +21,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: env === 'production' ? './dist/' : '/dist/',
     filename: '[name].[chunkhash].bundle.js',
-    // chunkFilename: '[id].[chunkhash].bundle.js'
+    chunkFilename: '[id].[chunkhash].bundle.js'
   },
   module: {
     rules: [{
@@ -54,7 +54,7 @@ const config = {
     }]
   },
   plugins: [
-    // new CleanWebpackPlugin('dist'),
+    new CleanWebpackPlugin('dist'),
     new webpack.NamedModulesPlugin(),
     new ManifestPlugin({
       fileName: 'assets.json',

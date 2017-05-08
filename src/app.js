@@ -2,8 +2,7 @@ if (module.hot) {
   module.hot.accept();
 }
 
-require('./style.scss');
-
+import './style.scss';
 import { groupBy } from 'lodash/collection';
 import people from './people';
 
