@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+// const ManifestPlugin = require('webpack-manifest-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const extractCommons = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons',
@@ -51,18 +52,27 @@ const config = {
         }
       }],
       exclude: ['/node_modules']
+    }, {
+      test: /\.handlebars$/,
+      loader: 'handlebars-loader',
     }]
   },
   plugins: [
     new CleanWebpackPlugin('dist'),
     new webpack.NamedModulesPlugin(),
-    new ManifestPlugin({
-      fileName: 'assets.json',
-      basePath: '/',
-      writeToFileEmit: true
-    }),
+    // new ManifestPlugin({
+    //   fileName: 'assets.json',
+    //   basePath: '/',
+    //   writeToFileEmit: true
+    // }),
     extractCommons,
-    extractCSS
+    extractCSS,
+    new HtmlWebpackPlugin({
+        chunks: ["commons", "app"],
+        filename: "index.html",
+        template: "!!html-webpack-plugin/lib/loader.js!./src/index.html", // or ./[name].html
+        inject: "body" // or true?
+    }),
   ]
 };
 
