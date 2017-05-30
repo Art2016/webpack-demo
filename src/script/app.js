@@ -13,7 +13,7 @@ const routes = {
     System.import('./lib/dashboard').then((dashboard) => {
       dashboard.draw();
     }).catch((err) => {
-      console.log("Chunk loading failed");
+      console.log('Chunk loading failed');
     });
   }
 };
