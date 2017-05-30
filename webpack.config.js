@@ -68,7 +68,7 @@ const config = {
       $: 'jquery',
       jQuery: 'jquery',
       "window.jQuery": 'jquery',
-      "windows.jQuery": 'jquery',
+      "windows.jQuery": 'jquery'
     }),
     extractCommons,
     extractCSS,
