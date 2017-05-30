@@ -1,3 +1,4 @@
+import hmr from './lib/hot-module-replacement';
 import $ from "jquery";
 import people from './lib/people';
 

@@ -1,7 +1,4 @@
-if (module.hot) {
-  module.hot.accept();
-}
-
+import hmr from './lib/hot-module-replacement';
 import '../style/app.scss';
 import { groupBy } from 'lodash/collection';
 import people from './lib/people';
