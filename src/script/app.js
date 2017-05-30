@@ -2,9 +2,9 @@ if (module.hot) {
   module.hot.accept();
 }
 
-import './style.scss';
+import '../style/app.scss';
 import { groupBy } from 'lodash/collection';
-import people from './people';
+import people from './lib/people';
 
 const managerGroups = groupBy(people, 'manager');
 
@@ -13,7 +13,7 @@ root.innerHTML = `<pre>${JSON.stringify(managerGroups, null, 2)}</pre>`;
 
 const routes = {
   dashboard: () => {
-    System.import('./dashboard').then((dashboard) => {
+    System.import('./lib/dashboard').then((dashboard) => {
       dashboard.draw();
     }).catch((err) => {
       console.log("Chunk loading failed");
