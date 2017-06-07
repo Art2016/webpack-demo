@@ -15,7 +15,8 @@ const config = {
   context: path.resolve(__dirname, 'src/script'),
   entry: {
     app: './app.js',
-    admin: './admin.js'
+    admin: './admin.js',
+    user: './user.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -60,7 +61,7 @@ const config = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {
-        warnings: true,
+        warnings: false,
       },
     }),
     new webpack.NamedModulesPlugin(),
@@ -85,6 +86,13 @@ const config = {
       template: '!!html-webpack-plugin/lib/loader.js!./src/page/admin.html',
       favicon: '../assets/favicon.ico',
       title: 'Admin'
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ['commons', 'user'],
+      filename: 'user.html',
+      template: '!!html-webpack-plugin/lib/loader.js!./src/page/user.html',
+      favicon: '../assets/favicon.ico',
+      title: 'User'
     })
   ]
 };
