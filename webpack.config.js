@@ -4,6 +4,8 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Webpack2Polyfill = require("webpack2-polyfill-plugin");
+const template = require('./src/template.js');
 
 const extractCommons = new webpack.optimize.CommonsChunkPlugin({
   name: 'commons',
@@ -46,7 +48,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: [
-            ['es2015', { moduels: false }], 'stage-0'
+            ['env', { modules: false }], 'stage-0'
           ]
         }
       }],
@@ -71,6 +73,7 @@ const config = {
       "window.jQuery": 'jquery',
       "windows.jQuery": 'jquery'
     }),
+    new Webpack2Polyfill(),
     extractCommons,
     extractCSS,
     new HtmlWebpackPlugin({
@@ -78,14 +81,14 @@ const config = {
       filename: 'index.html',
       template: '!!html-webpack-plugin/lib/loader.js!./src/page/index.html',
       favicon: '../assets/favicon.ico',
-      title: 'Hello webpack!!'
+      head: template.head('Hello Webpack!!')
     }),
     new HtmlWebpackPlugin({
       chunks: ['commons', 'admin'],
       filename: 'admin.html',
       template: '!!html-webpack-plugin/lib/loader.js!./src/page/admin.html',
       favicon: '../assets/favicon.ico',
-      title: 'Admin'
+      head: template.head('Admin')
     }),
     new HtmlWebpackPlugin({
       chunks: ['commons', 'user'],
