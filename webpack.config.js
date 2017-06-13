@@ -14,6 +14,7 @@ const extractCommons = new webpack.optimize.CommonsChunkPlugin({
 const extractCSS = new ExtractTextPlugin('[name].[chunkhash].bundle.css');
 
 const config = {
+  devtool: 'inline-source-map',
   context: path.resolve(__dirname, 'src/script'),
   entry: {
     app: './app.js',
